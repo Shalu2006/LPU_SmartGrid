@@ -6,7 +6,7 @@ import pandas as pd
 # --- PAGE SETUP ---
 st.set_page_config(page_title="LPU AI Smart Grid Pro", layout="wide")
 st.title("🛡️ LPU AI Smart Grid: Pro Edition")
-st.sidebar.image("https://upload.wikimedia.org/wikipedia/en/3/3a/Lovely_Professional_University_logo.png", width=100) # Optional LPU Logo
+st.sidebar.image("https://upload.wikimedia.org/wikipedia/en/3/3a/Lovely_Professional_University_logo.png", width=100)
 
 # --- SIDEBAR: ADVANCED CONTROLS ---
 st.sidebar.header("🕹️ Simulation Settings")
@@ -77,28 +77,10 @@ col2.metric("Total Savings", f"₹{df['Savings'].sum():,.0f}")
 col3.metric("Avg Computing Uptime", f"{df['Computing_Uptime'].mean():.1f}%")
 col4.metric("Avg Electronics Uptime", f"{df['Electronics_Uptime'].mean():.1f}%")
 
-# --- GRAPHS ---
-st.divider()
-st.subheader("📊 Real-Time Grid Performance Analysis")
-
-tab1, tab2 = st.tabs(["Energy Flow", "School Performance"])
-
-with tab1:
-    fig1, ax1 = plt.subplots(figsize=(10, 4))
-    plt.style.use('dark_background')
-    ax1.plot(df['Hour'], df['Solar'], color='orange', label='Solar (Supply)')
-    ax1.plot(df['Hour'], df['Demand'], color='red', linestyle='--', label='Demand')
-    ax1.fill_between(df['Hour'], df['Solar'], alpha=0.2, color='orange')
-    ax1.legend()
-    st.pyplot(fig1)
-
-with tab2:
-    fig2, ax2 = plt.subplots(figsize=(10, 4))
-    ax2.bar(df['Hour'], df['Computing_Uptime'], color='cyan', alpha=0.7, label='Computing Labs')
-    ax2.bar(df['Hour'], df['Electronics_Uptime'], color='magenta', alpha=0.4, label='Electronics Labs')
-    ax2.set_ylabel("Uptime %")
-    ax2.legend()
-    st.pyplot(fig2)
-
-# --- EXPORT DATA ---
-st.download_button("📩 Download Grid Report (CSV)", df.to_csv(index=False), "grid_report.csv", "text/csv")
+# --- SAVE STATE FOR OTHER PAGES ---
+st.session_state['df'] = df
+st.session_state['health'] = health
+st.session_state['grid_cost'] = grid_cost_per_unit
+st.session_state['weather'] = weather_event
+st.session_state['hackathon'] = hackathon_active
+st.session_state['priority_sector'] = priority_sector
