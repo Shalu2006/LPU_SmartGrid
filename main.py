@@ -72,6 +72,5 @@ ax2.plot(hours, [b/BATTERY_MAX*100 for b in battery_lvl], color='lime', label='B
 ax2.set_ylabel("Percentage (%)")
 ax2.set_xlabel("Hour of the Day")
 ax2.legend()
-
 plt.tight_layout()
 plt.show()
