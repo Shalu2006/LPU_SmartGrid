@@ -84,3 +84,29 @@ st.session_state['grid_cost'] = grid_cost_per_unit
 st.session_state['weather'] = weather_event
 st.session_state['hackathon'] = hackathon_active
 st.session_state['priority_sector'] = priority_sector
+
+from main import optimize_grid, get_lpu_demand
+
+st.subheader("📊 Advanced AI Graph")
+
+hours = list(range(24))
+computing_perf = []
+battery_soc = 1000
+battery_max = 3000
+
+for h in hours:
+    solar = max(0, 2000 * np.sin((h - 6) * np.pi / 12))
+    demand = get_lpu_demand(h)
+    
+    best_plan = optimize_grid(solar, demand, battery_soc)
+    
+    used = np.sum(best_plan * demand)
+    battery_soc = np.clip(battery_soc + (solar - used), 0, battery_max)
+    
+    computing_perf.append(best_plan[0] * 100)
+
+fig, ax = plt.subplots()
+ax.plot(hours, computing_perf)
+ax.set_title("Computing Performance (24 hrs)")
+
+st.pyplot(fig)
