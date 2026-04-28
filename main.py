@@ -73,4 +73,5 @@ ax2.set_ylabel("Percentage (%)")
 ax2.set_xlabel("Hour of the Day")
 ax2.legend()
 plt.tight_layout()
-plt.show()
+import streamlit as st
+st.pyplot(fig)
